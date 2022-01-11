@@ -38,9 +38,13 @@ app.set("trust proxy", 1);
 server.use(session({
   name:"uTkn",
   secret:process.env.SECRET_,
-  resave:false,
+  resave:true,
   saveUninitialized:false,
-  cookie:{maxAge:1000 * 60 * 60 * 2 }
+  cookie: {
+    maxAge:1000 * 60 * 60 * 2 ,
+    sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
+    secure: process.env.NODE_ENV === "production", // must be true if sameSite='none'
+  }
 }))
 
 server.use('/', routes);
