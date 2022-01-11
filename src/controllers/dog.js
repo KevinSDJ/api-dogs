@@ -5,8 +5,8 @@ const {getCache,updateCache}= require('../cache/index')
 const createDog = async (req, res) => {
     const { name, image, temperaments, weight, height, age } = req.body
     const { uid } = req.session
+    console.log(uid)
     // verificar que el usuario este registrado y logeado
-    console.log(name ,image,temperaments,weight, height,age)
     if (!uid) {
         return res.status(401).json({ msg: "you are not authorized", type: "error" })
     }
