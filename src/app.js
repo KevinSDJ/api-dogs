@@ -34,7 +34,7 @@ server.use((req, res, next) => {
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
   next();
 });
-app.set("trust proxy", 1);
+server.set("trust proxy", 1);
 server.use(session({
   name:"uTkn",
   secret:process.env.SECRET_,
