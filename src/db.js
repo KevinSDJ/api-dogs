@@ -5,6 +5,7 @@ const path = require('path');
 const {
   DB_USER, DB_PASSWORD, DB_HOST,DB_DATABASE
 } = process.env;
+// data base heroku psql -h ec2-52-207-163-202.compute-1.amazonaws.com db8i8nkjl8pbdl isjlarsxyikztx 
 
 const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_DATABASE}`, {
   logging: false, // set to console.log to see the raw SQL queries
