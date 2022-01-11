@@ -6,6 +6,7 @@ const createDog = async (req, res) => {
     const { name, image, temperaments, weight, height, age } = req.body
     const { uid } = req.session
     // verificar que el usuario este registrado y logeado
+    console.log(name ,image,temperaments,weight, height,age)
     if (!uid) {
         return res.status(401).json({ msg: "you are not authorized", type: "error" })
     }
@@ -17,7 +18,6 @@ const createDog = async (req, res) => {
     // verifico que los datos necesarios hayan llegado correctamente
     try {
         if (name && image && temperaments && weight && height && age) {
-            console.log(getCache().length)
             // separo los temperamentos por defecto y los creados 
             const temp = temperaments.filter(e => Number(e))
             const newTemp = temperaments.filter(e => !Number(e))
