@@ -20,7 +20,7 @@ const regist=async (req,res)=>{
             return res.status(400).json({error:"Las credenciales ya estan registradas"})
         }
         if(created){
-            res.status(200).json(user)
+            res.status(200).json({success:true})
         }
         
 

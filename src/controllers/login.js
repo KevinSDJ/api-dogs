@@ -21,9 +21,10 @@ const login=async (req,res)=>{
         username:user.username,
         email:user.email
     }
+    
     const Token=  jwt.sign(tknUser,SECRET_,{expiresIn:60*60*24})
     req.session.uid=Token
-    res.status(200).json({msg:"ok",type:"succes"})
+    res.status(200).json({type:"succes",user:{id:user.id,username:user.username,email:user.email}})
     }catch(e){
         res.status(400).json({msg:e,type:"error"})
     }
