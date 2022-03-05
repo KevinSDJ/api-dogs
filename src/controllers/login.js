@@ -7,6 +7,7 @@ require('dotenv').config()
 
 const {SECRET_}=process.env
 const login=async (req,res)=>{
+    console.log("estamos en el login")
     try{
         const {password,email}= req.body
     const user= await User.findOne({where:{email:email}})
@@ -23,8 +24,7 @@ const login=async (req,res)=>{
     }
     
     const Token=  jwt.sign(tknUser,SECRET_,{expiresIn:60*60*24})
-    req.session.uid=Token
-    res.status(200).json({type:"succes",user:{id:user.id,username:user.username,email:user.email}})
+    res.status(200).json({type:"succes",user:tknUser,Token})
     }catch(e){
         res.status(400).json({msg:e,type:"error"})
     }

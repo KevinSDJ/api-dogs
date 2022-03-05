@@ -1,17 +1,17 @@
 const { Dog, Temperament, User } = require('../db');
-const jwt = require('jsonwebtoken')
 const {getCache,updateCache}= require('../cache/index')
+const {cloudinary}= require('../utilities/cloudinary') 
 
 const createDog = async (req, res) => {
     const { name, image, temperaments, weight, height, age } = req.body
-    const { uid } = req.session
-    console.log(uid)
+    const {token} = req
+    token
     // verificar que el usuario este registrado y logeado
-    if (!uid) {
+    if (!token) {
         return res.status(401).json({ msg: "you are not authorized", type: "error" })
     }
     // desencriptar token y obtencion de datos necesarios
-    const { email } = jwt.decode(uid)
+    const { email } = token
     // si hay sesion y esta registrado busco el usario en el db
     let user = await User.findOne({ where: { email: email } })
 
@@ -21,7 +21,7 @@ const createDog = async (req, res) => {
             // separo los temperamentos por defecto y los creados 
             const temp = temperaments.filter(e => Number(e))
             const newTemp = temperaments.filter(e => !Number(e))
-
+            console.log(image)
             // creo la nueva raza
             let newRace = await Dog.create({ name, weight, height, age, image })
 

@@ -8,7 +8,6 @@ const { getCache, updateCache } = require('./../cache/index');
 
 async function getAlldogs(req, res) {
     let cach = getCache()
-
     if (cach.length < 1) {
         let races=[]
         axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${process.env.APPI_KEY}`)
