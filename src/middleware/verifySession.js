@@ -7,7 +7,6 @@ let verifySession= (req,res,next)=>{
 	let Token= req.headers['authorization']?.split(" ")[1]
 	let {SECRET_}=process.env 
 	if(Token){
-		console.log(Token)
 		jwt.verify(Token,SECRET_,async (err,decode)=>{
 			if(decode){
 				console.log(decode)

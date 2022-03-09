@@ -3,12 +3,11 @@ const {getCache,updateCache}= require('../cache/index')
 const {cloudinary}= require('../utilities/cloudinary') 
 
 const createDog = async (req, res) => {
-    const { name, image, temperaments, weight, height, age } = req.body
+    let { name, image, temperaments, weight, height, age } = req.body
     const {token} = req
-    token
     // verificar que el usuario este registrado y logeado
     if (!token) {
-        return res.status(401).json({ msg: "you are not authorized", type: "error" })
+        return res.status(401).json({type:"error",msg: "you are not authorized"})
     }
     // desencriptar token y obtencion de datos necesarios
     const { email } = token
@@ -21,16 +20,25 @@ const createDog = async (req, res) => {
             // separo los temperamentos por defecto y los creados 
             const temp = temperaments.filter(e => Number(e))
             const newTemp = temperaments.filter(e => !Number(e))
-            console.log(image)
+            const cloudinaryResponse= await cloudinary.uploader.upload(image,(error,result)=>{
+                if(error){
+                    return res.status(400).json({type:"error",msg:"Failed to upload image",error})
+                }
+                if (result) {
+                    image=result.secure_url
+                }
+            })
+
+
             // creo la nueva raza
-            let newRace = await Dog.create({ name, weight, height, age, image })
+            let newRace = await Dog.create({ name, weight, height,age,image})
 
             await newRace.setUser(user)
             // agregos los temperamentos existentes seleccionados
             await newRace.addTemperament(temp)
 
             // si el usuario creo nuevos temperamentos los agregos aqui
-            if (newTemp) {
+            if (newTemp?.length>0) {
                 console.log(newTemp)
                 let ntempCrtd = await Promise.all(newTemp.map(e => Temperament.create({ name: e }))).then(res => res)
                 await newRace.addTemperament(ntempCrtd)
@@ -42,11 +50,11 @@ const createDog = async (req, res) => {
                    updateCache(racesDb[0])
                 })
                 
-            res.status(200).json({ msg: "race created", type: "succes" })
+            res.status(201).json({type:"success",msg:"Race created"})
 
         }
     } catch (e) {
-        res.status(400).json({ error: new Error(e) })
+        res.status(500).json({type:"error",msg:e.TypeError})
     }
 
 

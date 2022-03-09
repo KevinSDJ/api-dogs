@@ -8,14 +8,15 @@ require('dotenv').config()
 const {SECRET_}=process.env
 const login=async (req,res)=>{
     console.log("estamos en el login")
-    try{
-        const {password,email}= req.body
+  
+    const {password,email}= req.body
     const user= await User.findOne({where:{email:email}})
-   
-    const verfPass= !user? false: await bcrypt.compare(password,user.password)
-    
-    if(!verfPass&&!user){
-        return res.status(401).json({msg:"Invalid credentials",type:"error"})
+    if(!user){
+        return res.status(404).json({type:"error",msg:"User not register"})
+    }   
+    const verfPass=await bcrypt.compare(password,user.password)
+    if(!verfPass){
+        return res.status(401).json({type:"error",msg:"Password invalid"})
     }
     const tknUser={
         id:user.id,
@@ -24,12 +25,7 @@ const login=async (req,res)=>{
     }
     
     const Token=  jwt.sign(tknUser,SECRET_,{expiresIn:60*60*24})
-    res.status(200).json({type:"succes",user:tknUser,Token})
-    }catch(e){
-        res.status(400).json({msg:e,type:"error"})
-    }
-    
-   
+    res.status(200).json({type:"success",msg:"login success",user:tknUser,Token})
 }
 
 module.exports={login}

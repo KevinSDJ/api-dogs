@@ -74,7 +74,8 @@ async function getIfQuery(req, res, next) {
                 return res.status(200).json(d)
 
             } else {
-                return res.status(404).json({error:"Not found"})
+                console.log("ss")
+                return res.status(404).json({ type:"error",msg:"Not found"})
             }
         }
 
@@ -82,7 +83,7 @@ async function getIfQuery(req, res, next) {
     }
     next()
     }catch(e){
-        console.log(e)
+        res.status(400).json({type:"error",msg:"Error server process"})
     }
     
 
