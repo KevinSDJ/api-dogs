@@ -22,7 +22,7 @@ const server = express();
 server.name = 'API';
 const {NODE_ENV}=process.env
 
-const whitelist = ['http://192.168.1.64:3000']
+const whitelist = ['http://192.168.1.64:3000/']
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || whitelist.indexOf(origin) !== -1) {
@@ -39,7 +39,7 @@ server.use(express.json({ limit: '50mb' }));
 server.use(cookieParser());
 server.use(morgan('dev'));
 server.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin','http://192.168.1.64:3000');
+  res.header('Access-Control-Allow-Origin','http://192.168.1.64:3000/');
   res.header('Access-Control-Allow-Credentials',true);
   res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept Authorization,content-type,application/json');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
