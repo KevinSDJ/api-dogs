@@ -21,19 +21,6 @@ let corsOpt={
 const server = express();
 server.name = 'API';
 const {NODE_ENV}=process.env
-
-const whitelist = ['*']
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error("Not allowed by CORS"))
-    }
-  },
-  credentials: true,
-}
-server.use(cors(corsOptions))
 server.use(express.urlencoded({ extended: true, limit: '50mb' }));
 server.use(express.json({ limit: '50mb' }));
 server.use(cookieParser());
