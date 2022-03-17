@@ -5,7 +5,7 @@ const routes = require('./routes/index.js');
 const cors= require('cors');
 require('dotenv').config()
 
-let listDomain=['http://localhost:3000']
+let listDomain=['https://dogs-app-client.vercel.app']
 let corsOpt={
   origin:function(origin,cb){
     if(listDomain.includes(origin)){
@@ -33,7 +33,7 @@ const corsOptions = {
   },
   credentials: true,
 }
-//server.use(cors(corsOptions))
+server.use(cors(corsOptions))
 server.use(express.urlencoded({ extended: true, limit: '50mb' }));
 server.use(express.json({ limit: '50mb' }));
 server.use(cookieParser());
