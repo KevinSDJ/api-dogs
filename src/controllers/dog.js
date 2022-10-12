@@ -4,16 +4,7 @@ const {cloudinary}= require('../utilities/cloudinary')
 
 const createDog = async (req, res) => {
     let { name, image, temperaments, weight, height, age } = req.body
-    const {token} = req
-    // verificar que el usuario este registrado y logeado
-    if (!token) {
-        return res.status(401).json({type:"error",msg: "you are not authorized"})
-    }
-    // desencriptar token y obtencion de datos necesarios
-    const { email } = token
-    // si hay sesion y esta registrado busco el usario en el db
-    let user = await User.findOne({ where: { email: email } })
-
+  
     // verifico que los datos necesarios hayan llegado correctamente
     try {
         if (name && image && temperaments && weight && height && age) {
@@ -33,7 +24,6 @@ const createDog = async (req, res) => {
             // creo la nueva raza
             let newRace = await Dog.create({ name, weight, height,age,image})
 
-            await newRace.setUser(user)
             // agregos los temperamentos existentes seleccionados
             await newRace.addTemperament(temp)
 

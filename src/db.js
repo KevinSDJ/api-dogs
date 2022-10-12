@@ -8,8 +8,8 @@ const {
 // data base heroku psql -h ec2-52-207-163-202.compute-1.amazonaws.com db8i8nkjl8pbdl isjlarsxyikztx 
 
 const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_DATABASE}`, {
-  logging: false, // set to console.log to see the raw SQL queries
-  native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+  logging: false, 
+  native: false, 
   dialectOptions: {
     ssl: {
       require: true,
@@ -29,7 +29,7 @@ const basename = path.basename(__filename);
 
 const modelDefiners = [];
 
-// Leemos todos los archivos de la carpeta Models, los requerimos y agregamos al arreglo modelDefiners
+
 fs.readdirSync(path.join(__dirname, '/models'))
   .filter((file) => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
   .forEach((file) => {
@@ -38,19 +38,14 @@ fs.readdirSync(path.join(__dirname, '/models'))
 
 // Injectamos la conexion (sequelize) a todos los modelos
 modelDefiners.forEach(model => model(sequelize));
-// Capitalizamos los nombres de los modelos ie: product => Product
+
 let entries = Object.entries(sequelize.models);
 let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
 sequelize.models = Object.fromEntries(capsEntries);
 
-// En sequelize.models están todos los modelos importados como propiedades
-// Para relacionarlos hacemos un destructuring
-const { Dog,User,Temperament} = sequelize.models;
 
-// Aca vendrian las relaciones
-// Product.hasMany(Reviews);
-User.hasMany(Dog)
-Dog.belongsTo(User)
+const { Dog,Temperament} = sequelize.models;
+
 
 Dog.belongsToMany(Temperament,{through:"dogs_temperaments"})
 Temperament.belongsToMany(Dog,{through:"dogs_temperaments"})
