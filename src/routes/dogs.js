@@ -1,5 +1,5 @@
 const {getAlldogs,getIfQuery,getIdraza} =require('../controllers/dogs')
-const {autho} =require('../middleware/autho')
+
 const {Router} = require('express');
 
 
