@@ -1,5 +1,5 @@
-const { Dog, Temperament, User } = require('../db');
-const {getCache,updateCache}= require('../cache/index')
+const { Dog, Temperament } = require('../db');
+const {updateCache}= require('../cache/index')
 const {cloudinary}= require('../utilities/cloudinary') 
 
 const createDog = async (req, res) => {

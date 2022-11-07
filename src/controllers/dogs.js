@@ -1,6 +1,6 @@
 require('dotenv').config();
 const axios = require('axios');
-const { Dog, Temperament } = require('../db');
+const { Dog } = require('../db');
 const { getCache, updateCache } = require('./../cache/index');
 
 

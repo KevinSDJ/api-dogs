@@ -27,6 +27,6 @@ conn.sync({force:true}).then(async() => {
   tempInject()
   server.listen(process.env.PORT || 3001, () => {
     process.env.PORT&& console.log(`Run in Port: ${process.env.PORT}`)
-    !process.env.PORT&& console.log("Run in Port :30001")
+    !process.env.PORT&& console.log("Run in Port :3001")
   });
 });
