@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const routes = require('./routes/index.js');
 require('dotenv').config()
 
-let domain=process.env.NODE_ENV==='production'&&'https://dogs-app-client.vercel.app'||'http://localhost:3000'
+let domain=process.env.NODE_ENV==='production'&&['https://dogs-app-client.vercel.app','http://186.122.105.95:3000']||'http://localhost:3000'
 
 const server = express();
 server.name = 'API';
